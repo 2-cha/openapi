@@ -546,6 +546,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/CollectionBriefResponse'
       operationId: get-collections
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: page_number
+          description: default = 0
+        - schema:
+            type: string
+          in: query
+          name: page_size
+          description: default = 20
     post:
       summary: ''
       operationId: post-collections
