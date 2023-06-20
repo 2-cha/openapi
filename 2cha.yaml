@@ -27,7 +27,7 @@ paths:
                 $ref: '#/components/schemas/MemberProfileResponse'
       operationId: get-members-memberId
   /members/achievements:
-    parameters: [ ]
+    parameters: []
     get:
       summary: ''
       tags:
@@ -406,7 +406,7 @@ paths:
           description: 한글 초성 검색
           required: true
       requestBody:
-        content: { }
+        content: {}
   '/bookmarks/reviews/{bookmarkId}':
     parameters:
       - schema:
@@ -446,7 +446,7 @@ paths:
                 $ref: '#/components/schemas/PlaceBookmarkResponse'
       operationId: get-bookmarks-places-bookmarkId
       requestBody:
-        content: { }
+        content: {}
   '/bookmarks/{itemType}':
     parameters:
       - schema:
@@ -505,11 +505,11 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: { }
+                properties: {}
       tags:
         - bookmark
       requestBody:
-        content: { }
+        content: {}
   '/members/{memberId}/collections':
     parameters:
       - schema:
@@ -527,9 +527,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CollectionReviewsResponse'
-                  x-stoplight:
-                    id: xn1sp5qn0zv1z
+                  $ref: '#/components/schemas/CollectionBriefResponse'
       operationId: get-members-memberId-collections
       tags:
         - collection
@@ -546,9 +544,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CollectionViewResponse'
-                  x-stoplight:
-                    id: 0a4vsodfvk3k6
+                  $ref: '#/components/schemas/CollectionBriefResponse'
       operationId: get-collections
     post:
       summary: ''
@@ -583,7 +579,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionReviewsResponse'
+                $ref: '#/components/schemas/CollectionDetailResponse'
       operationId: get-collections-collectionId
       tags:
         - collection
@@ -597,7 +593,7 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: { }
+                properties: {}
       tags:
         - collection
     patch:
@@ -798,7 +794,7 @@ paths:
           name: page_size
           description: default = 20
       requestBody:
-        content: { }
+        content: {}
     post:
       summary: ''
       operationId: post-places
@@ -848,7 +844,53 @@ paths:
           in: query
           description: 한글 초성 검색 지원
           name: query
-    parameters: [ ]
+    parameters: []
+  '/collections/{collId}/like':
+    parameters:
+      - schema:
+          type: string
+        name: collId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-collections-collId-like
+      responses:
+        '200':
+          description: OK
+      tags:
+        - collection
+    delete:
+      summary: ''
+      operationId: delete-collections-collId-like
+      responses:
+        '200':
+          description: OK
+      tags:
+        - collection
+  '/reviews/{revId}/like':
+    parameters:
+      - schema:
+          type: string
+        name: revId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-review-revid-like
+      responses:
+        '200':
+          description: OK
+      tags:
+        - review
+    delete:
+      summary: ''
+      operationId: delete-review-revid-like
+      responses:
+        '200':
+          description: OK
+      tags:
+        - review
 components:
   schemas:
     ToggleAchievementExposureRequest:
@@ -938,7 +980,7 @@ components:
           item_id: 123
       x-stoplight:
         id: pwqo0o2ifa434
-    CollectionViewResponse:
+    CollectionBriefResponse:
       type: object
       properties:
         id:
@@ -957,6 +999,7 @@ components:
           thumbnail: ABC
       x-stoplight:
         id: emqxt1weivowq
+      title: ''
     CollectionCreatedResponse:
       type: object
       properties:
@@ -1155,7 +1198,7 @@ components:
             - 2
       x-stoplight:
         id: ipem9rotu7azq
-    CollectionReviewsResponse:
+    CollectionDetailResponse:
       type: object
       x-examples:
         Example 1:
@@ -1163,6 +1206,8 @@ components:
           title: ABC
           description: ABC
           thumbnail: ABC
+      x-stoplight:
+        id: p6y6sv14oi0jd
       properties:
         id:
           type: integer
@@ -1173,15 +1218,11 @@ components:
         thumbnail:
           type: string
         reviews:
-          type: array
           x-stoplight:
             id: 867t9wcd9ic3x
+          type: array
           items:
-            $ref: '#/components/schemas/ReviewResponse'
-            x-stoplight:
-              id: imhck0f4ui7l8
-      x-stoplight:
-        id: p6y6sv14oi0jd
+            $ref: '#/components/schemas/ReviewInCollectionResponse'
     PlaceBookmarkResponse:
       title: PlaceBookmarkResponse
       x-stoplight:
@@ -1246,10 +1287,14 @@ components:
           type: string
           x-stoplight:
             id: x6t3a5exgv275
-        exposure:
-          type: boolean
+        review_ids:
+          type: array
           x-stoplight:
-            id: li280rnrf8xty
+            id: wtxen7r4d61tn
+          items:
+            x-stoplight:
+              id: ca28m2qjae4s1
+            type: integer
     SignInWithAccountRequest:
       title: SignInWithAccountRequest
       x-stoplight:
@@ -1548,7 +1593,7 @@ components:
             type: number
     PlaceEnrollRequest:
       type: object
-      x-examples: { }
+      x-examples: {}
       properties:
         name:
           type: string
@@ -1726,5 +1771,55 @@ components:
           type: string
           x-stoplight:
             id: t30gjz098z8i7
-  requestBodies: { }
-  responses: { }
+    ReviewInCollectionResponse:
+      title: ReviewInCollectionResponse
+      x-stoplight:
+        id: v37971uixeedm
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: b8acztlm38cfr
+        image:
+          type: string
+          x-stoplight:
+            id: 7nw4q25qppzg1
+        place:
+          $ref: '#/components/schemas/PlaceBriefResponse'
+        tags:
+          type: array
+          x-stoplight:
+            id: rpw6oxr1bxock
+          items:
+            $ref: '#/components/schemas/TagResponse'
+    BookmarkStatus:
+      title: BookmarkStatus
+      x-stoplight:
+        id: x1n99cfhl9hn6
+      type: object
+      properties:
+        count:
+          type: integer
+          x-stoplight:
+            id: 767tto6uho9bd
+        is_bookmarked:
+          type: boolean
+          x-stoplight:
+            id: efkcfbz7q2i4h
+    LikeStatus:
+      title: LikeStatus
+      x-stoplight:
+        id: 7hi4wyxvmmrhn
+      type: object
+      properties:
+        count:
+          type: integer
+          x-stoplight:
+            id: e36rfl2yi69jd
+        is_liked:
+          type: boolean
+          x-stoplight:
+            id: yhqwtt74db1qw
+  requestBodies: {}
+  responses: {}
