@@ -550,13 +550,18 @@ paths:
         - schema:
             type: string
           in: query
-          name: page_number
-          description: default = 0
+          name: lat
+          required: true
         - schema:
             type: string
           in: query
-          name: page_size
-          description: default = 20
+          name: lon
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: distance
+          description: default = 5000.0
     post:
       summary: ''
       operationId: post-collections
