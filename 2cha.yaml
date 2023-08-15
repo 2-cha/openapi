@@ -1,11 +1,14 @@
 openapi: 3.0.0
 x-stoplight:
-  id: 5wm602n4f330d
+  id: oppcu1wqiubiy
 info:
   title: 2cha
   version: '1.0'
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:8080'
+    description: dev
+  - description: live
+    url: 'https://api.2chaproj.com'
 paths:
   '/members/{memberId}':
     parameters:
@@ -26,6 +29,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/MemberProfileResponse'
       operationId: get-members-memberId
+      x-stoplight:
+        id: 61rs8810y7xf6
   /members/achievements:
     parameters: []
     get:
@@ -42,6 +47,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/AchievementResponse'
       operationId: get-members-memberId-exposure
+      x-stoplight:
+        id: k9wi6xdg07j9k
   /members/achievements/exposed:
     put:
       summary: ''
@@ -67,6 +74,8 @@ paths:
         description: ''
       tags:
         - member
+      x-stoplight:
+        id: 47uek0lim4v9w
   '/members/{memberId}/achievements':
     parameters:
       - schema:
@@ -88,6 +97,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/AchievementResponse'
       operationId: get-members-memberId-achievements
+      x-stoplight:
+        id: sie7ickhapjz9
   '/members/{memberId}/followers':
     parameters:
       - schema:
@@ -109,6 +120,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/MemberProfileResponse'
       operationId: get-members-memberId-followers
+      x-stoplight:
+        id: yibqv48bvs6hv
   '/members/{memberId}/followings':
     parameters:
       - schema:
@@ -130,6 +143,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/MemberProfileResponse'
       operationId: get-members-memberId-followings
+      x-stoplight:
+        id: s983xe5189ck6
   '/members/{followingId}/follow':
     parameters:
       - schema:
@@ -149,6 +164,8 @@ paths:
                 $ref: '#/components/schemas/RelationshipOperationResponse'
       tags:
         - member
+      x-stoplight:
+        id: 9u47rxy790yc8
     delete:
       summary: ''
       operationId: delete-members-followingId-follow
@@ -161,6 +178,8 @@ paths:
                 $ref: '#/components/schemas/RelationshipOperationResponse'
       tags:
         - member
+      x-stoplight:
+        id: ahcqqyk01l6nu
   /members:
     post:
       summary: ''
@@ -179,6 +198,8 @@ paths:
               $ref: '#/components/schemas/SignUpRequest'
       tags:
         - member
+      x-stoplight:
+        id: e4l01xgbi8eti
     put:
       summary: ''
       operationId: put-members
@@ -196,6 +217,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MemberProfileUpdateRequest'
+      x-stoplight:
+        id: qbl5hs7qbhm4k
   '/places/{placeId}':
     parameters:
       - schema:
@@ -215,6 +238,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlaceDetailResponse'
       operationId: get-places-placeId
+      x-stoplight:
+        id: a7627q81jhrar
   /places/nearby:
     get:
       summary: ''
@@ -268,6 +293,8 @@ paths:
           description: 'array of category, array of tag_id ...'
       tags:
         - place
+      x-stoplight:
+        id: 30gq5hc7rkf5b
   '/places/{placeId}/reviews':
     parameters:
       - schema:
@@ -302,6 +329,8 @@ paths:
           in: query
           name: page_size
           description: default = 20
+      x-stoplight:
+        id: yfksnoisrxw9j
     post:
       summary: ''
       operationId: post-places-placeId-reviews
@@ -315,6 +344,8 @@ paths:
               $ref: '#/components/schemas/WriteReviewRequest'
       tags:
         - review
+      x-stoplight:
+        id: 1l8vjhaz18ndr
   '/members/{memberId}/reviews':
     parameters:
       - schema:
@@ -349,6 +380,8 @@ paths:
           in: query
           name: page_size
           description: default = 20
+      x-stoplight:
+        id: g9ei4p4en6ztm
   '/reviews/{reviewId}':
     parameters:
       - schema:
@@ -364,6 +397,8 @@ paths:
           description: OK
       tags:
         - review
+      x-stoplight:
+        id: wdl2tb6fvac26
     get:
       summary: ''
       operationId: get-reviews-reviewId
@@ -376,6 +411,8 @@ paths:
                 $ref: '#/components/schemas/ReviewResponse'
       tags:
         - review
+      x-stoplight:
+        id: dq9f3fmhwtzno
   /tags:
     get:
       summary: ''
@@ -397,6 +434,10 @@ paths:
                       emoji: "\U0001F469\U0001F3FB‍❤️‍\U0001F468\U0001F3FB"
                       message: 데이트 하기 좋아요
                       category: ACTIVITY
+                      matching_indexes:
+                        - 0
+                        - 1
+                        - 3
       operationId: get-tags
       parameters:
         - schema:
@@ -407,74 +448,13 @@ paths:
           required: true
       requestBody:
         content: {}
-  '/bookmarks/reviews/{bookmarkId}':
-    parameters:
-      - schema:
-          type: integer
-        name: bookmarkId
-        in: path
-        required: true
+      x-stoplight:
+        id: 0rsy26207jg0i
+      description: Fuzzy search (allow 한글 초성)
+  /bookmarks/places:
+    parameters: []
     get:
       summary: ''
-      tags:
-        - bookmark
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReviewBookmarkResponse'
-      operationId: get-bookmarks-reviews-bookmarkId
-  '/bookmarks/places/{bookmarkId}':
-    parameters:
-      - schema:
-          type: integer
-        name: bookmarkId
-        in: path
-        required: true
-    get:
-      summary: ''
-      tags:
-        - bookmark
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaceBookmarkResponse'
-      operationId: get-bookmarks-places-bookmarkId
-      requestBody:
-        content: {}
-  '/bookmarks/{itemType}':
-    parameters:
-      - schema:
-          type: string
-        name: itemType
-        in: path
-        required: true
-        description: 'reviews, collections, places'
-    post:
-      summary: ''
-      operationId: post-bookmarks-itemType
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BookmarkCreatedResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookmarkCreateRequest'
-      tags:
-        - bookmark
-    get:
-      summary: ''
-      operationId: get-bookmarks-itemType
       responses:
         '200':
           description: OK
@@ -483,33 +463,44 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BookmarkBriefResponse'
-                  x-stoplight:
-                    id: nz9sknjfhw8t8
+                  $ref: '#/components/schemas/PlaceBriefResponse'
+      operationId: get-bookmarks-places-bookmarkId
+      requestBody:
+        content: {}
+      x-stoplight:
+        id: t78ldspy75rnb
       tags:
-        - bookmark
-  '/bookmarks/{bookmarkId}':
+        - place
+  '/bookmarks/places/{placeId}':
     parameters:
       - schema:
-          type: integer
-        name: bookmarkId
+          type: number
+        name: placeId
         in: path
         required: true
-    delete:
+    post:
       summary: ''
-      operationId: delete-bookmarks-bookmarkId
+      operationId: post-bookmarks-places
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-      tags:
-        - bookmark
+          content: {}
       requestBody:
         content: {}
+      x-stoplight:
+        id: 42v7umw2r0ac1
+      tags:
+        - place
+    delete:
+      summary: ''
+      operationId: delete-bookmarks-places-placeId
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: tlo1vkyj6cq2r
+      tags:
+        - place
   '/members/{memberId}/collections':
     parameters:
       - schema:
@@ -531,6 +522,8 @@ paths:
       operationId: get-members-memberId-collections
       tags:
         - collection
+      x-stoplight:
+        id: vdj93zkx7n3zz
   /collections:
     get:
       summary: ''
@@ -562,6 +555,8 @@ paths:
           in: query
           name: distance
           description: default = 5000.0
+      x-stoplight:
+        id: thsd30bnzjw3w
     post:
       summary: ''
       operationId: post-collections
@@ -580,6 +575,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CollectionCreateRequest'
+      x-stoplight:
+        id: vomy433xtw6a1
   '/collections/{collectionId}':
     parameters:
       - schema:
@@ -599,6 +596,8 @@ paths:
       operationId: get-collections-collectionId
       tags:
         - collection
+      x-stoplight:
+        id: fa4cw2tpwbgx5
     delete:
       summary: ''
       operationId: delete-collections-collectionId
@@ -612,6 +611,8 @@ paths:
                 properties: {}
       tags:
         - collection
+      x-stoplight:
+        id: 0fzlxujjfzhhz
     patch:
       summary: ''
       operationId: patch-collections-collectionId
@@ -633,6 +634,8 @@ paths:
           Only specified properties will be updated.
 
           title, thumbnail can't be empty or blank string.
+      x-stoplight:
+        id: 2ja31ybffncr7
   '/collections/{collectionId}/reviews':
     parameters:
       - schema:
@@ -659,6 +662,8 @@ paths:
             schema:
               $ref: '#/components/schemas/CollectionReviewsUpdateRequest'
         description: 'Reviews in collection will be updated as specified in request body, preserving order.'
+      x-stoplight:
+        id: jn1shsmi6q9m8
   /auth/signin:
     post:
       summary: ''
@@ -678,6 +683,8 @@ paths:
             schema:
               $ref: '#/components/schemas/SignInWithAccountRequest'
         description: ''
+      x-stoplight:
+        id: tdg1isw4t8l57
   '/auth/openid/{provider}/signin':
     parameters:
       - schema:
@@ -703,6 +710,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OIDCRequest'
+      x-stoplight:
+        id: rilbcyijcn1gs
   /auth/refresh:
     post:
       summary: ''
@@ -721,6 +730,8 @@ paths:
               $ref: '#/components/schemas/JwtRefreshRequest'
       tags:
         - auth
+      x-stoplight:
+        id: dc0nraay0khru
   /members/image:
     put:
       summary: ''
@@ -740,6 +751,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MemberImageUpdateRequest'
+      x-stoplight:
+        id: ekar18cyw1qt4
     post:
       summary: ''
       operationId: post-members-image
@@ -760,6 +773,8 @@ paths:
               format: binary
         description: Submit profile image file
       description: ''
+      x-stoplight:
+        id: rlhaidbho5vhh
   /reviews/images:
     post:
       summary: ''
@@ -779,6 +794,8 @@ paths:
               format: binary
       tags:
         - review
+      x-stoplight:
+        id: 3dplr5sbq1vxb
   /places:
     get:
       summary: ''
@@ -811,6 +828,8 @@ paths:
           description: default = 20
       requestBody:
         content: {}
+      x-stoplight:
+        id: nizhqqx6ioewe
     post:
       summary: ''
       operationId: post-places
@@ -828,6 +847,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PlaceEnrollRequest'
+      x-stoplight:
+        id: x0n5dwzhurvh7
   /tags/categorized:
     get:
       summary: ''
@@ -860,6 +881,9 @@ paths:
           in: query
           description: 한글 초성 검색 지원
           name: query
+      x-stoplight:
+        id: q1mq0eisp1diq
+      description: Fuzzy search (allow 한글 초성)
     parameters: []
   '/collections/{collId}/like':
     parameters:
@@ -876,6 +900,8 @@ paths:
           description: OK
       tags:
         - collection
+      x-stoplight:
+        id: v71625eio6j0w
     delete:
       summary: ''
       operationId: delete-collections-collId-like
@@ -884,6 +910,8 @@ paths:
           description: OK
       tags:
         - collection
+      x-stoplight:
+        id: lsyytnijo6uaj
   '/reviews/{revId}/like':
     parameters:
       - schema:
@@ -899,6 +927,8 @@ paths:
           description: OK
       tags:
         - review
+      x-stoplight:
+        id: uqxf3pr5dfs46
     delete:
       summary: ''
       operationId: delete-review-revid-like
@@ -907,12 +937,217 @@ paths:
           description: OK
       tags:
         - review
+      x-stoplight:
+        id: io65z2yru6uda
+  /auth/signout:
+    post:
+      summary: ''
+      operationId: post-auth-signout
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: bolx3tcxo5cp1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignoutRequest'
+      tags:
+        - auth
+  /auth/signout/all:
+    post:
+      summary: ''
+      operationId: post-auth-signout-all
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: jesaar1ywose1
+      tags:
+        - auth
+  '/push/registration/{subject}':
+    post:
+      summary: ''
+      operationId: post-push-registration
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: 6oli2yxmecnby
+      tags:
+        - push
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushRegistrationRequest'
+    delete:
+      summary: ''
+      operationId: delete-push-registration
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: f2powe5t7tmba
+      tags:
+        - push
+    parameters:
+      - schema:
+          type: string
+        name: subject
+        in: path
+        required: true
+        description: 'ex: FCM token for device'
+  /push/registration/all:
+    delete:
+      summary: ''
+      operationId: delete-push-registration-all
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: 9v090gtje29au
+      tags:
+        - push
+      description: unregister all devices of requesting user
+  '/push/activity/{subject}':
+    parameters:
+      - schema:
+          type: string
+        name: subject
+        in: path
+        required: true
+        description: 'ex: FCM token for device'
+    put:
+      summary: ''
+      operationId: put-push-activity-subject
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: qwmlwmnkmtho5
+      description: update freshness of device token
+      tags:
+        - push
+  /bookmarks/reviews:
+    get:
+      summary: ''
+      tags:
+        - review
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewResponse'
+      operationId: get-bookmarks-reviews
+      x-stoplight:
+        id: cxyvk99w98bb3
+      description: ''
+  '/bookmarks/reviews/{reviewId}':
+    parameters:
+      - schema:
+          type: string
+        name: reviewId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-bookmarks-reviews-reviewId
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: scqlftekqm36w
+      tags:
+        - review
+    delete:
+      summary: ''
+      operationId: delete-bookmarks-reviews-reviewId
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: 6jmusm7fsujto
+      tags:
+        - review
+  /bookmarks/collections:
+    get:
+      summary: ''
+      tags:
+        - collection
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollectionBriefResponse'
+      operationId: get-bookmarks-collections
+      x-stoplight:
+        id: 310sb1hvpr6xs
+  '/bookmarks/collections/{collId}':
+    parameters:
+      - schema:
+          type: string
+        name: collId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-bookmarks-collections-collId
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: mkgzmst82ymc3
+      tags:
+        - collection
+    delete:
+      summary: ''
+      operationId: delete-bookmarks-collections-collId
+      responses:
+        '200':
+          description: OK
+      x-stoplight:
+        id: z1kil8f0scqdu
+      tags:
+        - collection
+  '/collections/{collId}/recommendation':
+    parameters:
+      - schema:
+          type: string
+        name: collId
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - collection
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollectionBriefResponse'
+      operationId: get-collections-collId-recommendation
+      x-stoplight:
+        id: swfjxrc1yl1v3
 components:
   schemas:
     ToggleAchievementExposureRequest:
       title: ToggleAchievementExposureRequest
       x-stoplight:
-        id: maro11qzp4dcl
+        id: cr5i3ghkzs82a
       type: object
       properties:
         achv_id:
@@ -926,7 +1161,7 @@ components:
     SignUpRequest:
       title: SignUpRequest
       x-stoplight:
-        id: 4ywmmzhprfu2q
+        id: f8bvlut6sq5ru
       type: object
       properties:
         email:
@@ -944,7 +1179,7 @@ components:
     WriteReviewRequest:
       title: WriteReviewRequest
       x-stoplight:
-        id: zc53i3sori7oc
+        id: zz0026mnvswpa
       type: object
       properties:
         tag_ids:
@@ -975,7 +1210,7 @@ components:
           id: 123
           thumbnail: ABC
       x-stoplight:
-        id: mrwypyux18g4s
+        id: 9gye3g9maiu3p
     BookmarkCreatedResponse:
       type: object
       properties:
@@ -985,7 +1220,7 @@ components:
         Example 1:
           id: 123
       x-stoplight:
-        id: t7cusjyvwsv4u
+        id: 3jzyaxp44a4vs
     BookmarkCreateRequest:
       type: object
       properties:
@@ -995,9 +1230,17 @@ components:
         Example 1:
           item_id: 123
       x-stoplight:
-        id: pwqo0o2ifa434
+        id: nv2twxcuztoot
     CollectionBriefResponse:
       type: object
+      x-examples:
+        Example 1:
+          id: 123
+          title: ABC
+          description: ABC
+          thumbnail: ABC
+      x-stoplight:
+        id: e202ffv8l13ft
       properties:
         id:
           type: integer
@@ -1007,15 +1250,10 @@ components:
           type: string
         thumbnail:
           type: string
-      x-examples:
-        Example 1:
-          id: 123
-          title: ABC
-          description: ABC
-          thumbnail: ABC
-      x-stoplight:
-        id: emqxt1weivowq
-      title: ''
+        bookmark_status:
+          $ref: '#/components/schemas/BookmarkStatus'
+        like_status:
+          $ref: '#/components/schemas/LikeStatus'
     CollectionCreatedResponse:
       type: object
       properties:
@@ -1028,7 +1266,7 @@ components:
           id: 123
           title: ABC
       x-stoplight:
-        id: zp1ignx1g9udi
+        id: 66r9rdj0su2q0
     CollectionUpdatedResponse:
       type: object
       properties:
@@ -1050,7 +1288,7 @@ components:
           thumbnail: ABC
           exposure: true
       x-stoplight:
-        id: b65r1u3g82yiw
+        id: c56t3uc7nylx8
     TagResponse:
       type: object
       x-examples:
@@ -1058,7 +1296,7 @@ components:
           emoji: "\U0001F4D6"
           message: 책 읽기 좋아요
       x-stoplight:
-        id: mmmb59pg9k6m1
+        id: onqi2h5h5u9og
       properties:
         emoji:
           type: string
@@ -1096,7 +1334,7 @@ components:
           message: 책 읽기 좋아요
           count: 3
       x-stoplight:
-        id: vbfw6wnmbt6ih
+        id: hfosrhssncw3j
     PlaceBriefResponse:
       type: object
       x-examples:
@@ -1128,7 +1366,7 @@ components:
             x-stoplight:
               id: kgtcm6k3nh3ju
       x-stoplight:
-        id: nofh82cqxe52s
+        id: tvhy8a2s0v1lp
     MemberProfileResponse:
       type: object
       properties:
@@ -1147,11 +1385,11 @@ components:
           prof_img: 'https://img1.kakaocdn.net/cthumb/local/R0x420'
           prof_msg: 화이팅
       x-stoplight:
-        id: 1hajm3vfra4uv
+        id: wnub7p0yakd8b
     ReviewResponse:
       title: ReviewResponse
       x-stoplight:
-        id: ge1wdf6sy26uu
+        id: 9qpnvy1lp8bs8
       type: object
       properties:
         id:
@@ -1162,8 +1400,6 @@ components:
             id: t0j5dy3q1hynx
           items:
             $ref: '#/components/schemas/TagResponse'
-            x-stoplight:
-              id: g7ssdlrfs5q7y
         images:
           type: array
           x-stoplight:
@@ -1174,12 +1410,12 @@ components:
             type: string
         member:
           $ref: '#/components/schemas/MemberProfileResponse'
-          x-stoplight:
-            id: vfh8gb6882mun
         place:
           $ref: '#/components/schemas/PlaceBriefResponse'
-          x-stoplight:
-            id: hgl02amym8rg3
+        bookmark_status:
+          $ref: '#/components/schemas/BookmarkStatus'
+        like_status:
+          $ref: '#/components/schemas/LikeStatus'
     CollectionReviewsUpdatedResponse:
       type: object
       properties:
@@ -1199,7 +1435,7 @@ components:
             - 1
             - 2
       x-stoplight:
-        id: ybz8v801ypput
+        id: 2lb0ftiy77197
     CollectionReviewsUpdateRequest:
       type: object
       properties:
@@ -1213,7 +1449,7 @@ components:
             - 1
             - 2
       x-stoplight:
-        id: ipem9rotu7azq
+        id: hrm7pd8aw5k9d
     CollectionDetailResponse:
       type: object
       x-examples:
@@ -1223,7 +1459,7 @@ components:
           description: ABC
           thumbnail: ABC
       x-stoplight:
-        id: p6y6sv14oi0jd
+        id: jtm405w35gu0u
       properties:
         id:
           type: integer
@@ -1239,10 +1475,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReviewInCollectionResponse'
+        member:
+          $ref: '#/components/schemas/MemberProfileResponse'
+        bookmark_status:
+          $ref: '#/components/schemas/BookmarkStatus'
+        like_status:
+          $ref: '#/components/schemas/LikeStatus'
     PlaceBookmarkResponse:
       title: PlaceBookmarkResponse
       x-stoplight:
-        id: l3cx94bo9av1b
+        id: x7wc8izwx1i2c
       type: object
       properties:
         id:
@@ -1254,7 +1496,7 @@ components:
     ReviewBookmarkResponse:
       title: ReviewBookmarkResponse
       x-stoplight:
-        id: am6vlm8yaeybf
+        id: xa5axyo6eyuy9
       type: object
       properties:
         id:
@@ -1266,7 +1508,7 @@ components:
     CollectionUpdateRequest:
       title: CollectionUpdateRequest
       x-stoplight:
-        id: an9e6cpexxzpu
+        id: eh2o8453b9241
       type: object
       properties:
         title:
@@ -1288,7 +1530,7 @@ components:
     CollectionCreateRequest:
       title: CollectionCreateRequest
       x-stoplight:
-        id: 2x08zj3f783pl
+        id: subosodp00059
       type: object
       properties:
         title:
@@ -1314,7 +1556,7 @@ components:
     SignInWithAccountRequest:
       title: SignInWithAccountRequest
       x-stoplight:
-        id: gdhto21v2x30c
+        id: vlla35t2mabkv
       type: object
       properties:
         email:
@@ -1328,7 +1570,7 @@ components:
     OIDCRequest:
       title: OIDCRequest
       x-stoplight:
-        id: aixz7rf21c3as
+        id: 25h537o3rh54n
       type: object
       properties:
         code:
@@ -1338,7 +1580,7 @@ components:
     TokenResponse:
       title: TokenResponse
       x-stoplight:
-        id: xwhfza2w7d9n2
+        id: o4493355dgvrw
       type: object
       properties:
         access_token:
@@ -1352,7 +1594,7 @@ components:
     JwtRefreshRequest:
       title: JwtRefreshRequest
       x-stoplight:
-        id: mf5vmragb7u1s
+        id: 5tl1pl44x9ey0
       type: object
       properties:
         refresh_token:
@@ -1424,9 +1666,11 @@ components:
           x-stoplight:
             id: xtofpg8uhpub5
       x-stoplight:
-        id: t96scahmxk17a
+        id: ctk1viodpgs1w
     PlaceBriefWithDistanceResponse:
       type: object
+      x-stoplight:
+        id: f5e7ofwvbt4ui
       properties:
         id:
           type: number
@@ -1477,8 +1721,8 @@ components:
                 type: number
                 x-stoplight:
                   id: k5epoidfum4up
-      x-stoplight:
-        id: 9739ao3xxa7c5
+        bookmark_status:
+          $ref: '#/components/schemas/BookmarkStatus'
     AchievementResponse:
       type: object
       properties:
@@ -1491,7 +1735,7 @@ components:
           x-stoplight:
             id: k6i03asvho6lz
       x-stoplight:
-        id: ejcf4hzgtk462
+        id: 11x4q7pal2ual
     ToggleAchievementExposureResponse:
       type: object
       properties:
@@ -1504,7 +1748,7 @@ components:
           x-stoplight:
             id: sxiopzsp70tna
       x-stoplight:
-        id: uoqmwr6prklrd
+        id: uv70d0k74t4r0
     RelationshipOperationResponse:
       type: object
       properties:
@@ -1517,7 +1761,7 @@ components:
           x-stoplight:
             id: 1ebcgwfmjddhm
       x-stoplight:
-        id: 778p3bac9598j
+        id: 910ows6pst03a
     MemberInfoResponse:
       type: object
       properties:
@@ -1536,11 +1780,11 @@ components:
           x-stoplight:
             id: pzpqh1z2nm882
       x-stoplight:
-        id: qhaay9478h9io
+        id: z996wz9ziemb4
     MemberProfileUpdateRequest:
       title: MemberProfileUpdateRequest
       x-stoplight:
-        id: xoglnmnf04tq8
+        id: gsztgkiyiem9o
       type: object
       properties:
         name:
@@ -1554,7 +1798,7 @@ components:
     MemberImageUpdateRequest:
       title: MemberImageUpdateRequest
       x-stoplight:
-        id: 5zokx2dh4vum5
+        id: bos82kopmqcpn
       type: object
       properties:
         url:
@@ -1564,7 +1808,7 @@ components:
     ImageSavedResponse:
       title: ImageSavedResponse
       x-stoplight:
-        id: r2ccoidw89c3t
+        id: vei6xeyo5lic5
       type: object
       properties:
         url:
@@ -1589,6 +1833,8 @@ components:
             thumbnail: 'https://2chaproj.s3.ap-northeast-2.amazonaws.com/images/thumb_753c9ba4-cc45-4f90-8034-f0571d560967.jpg'
             lon: 126.874937898
             lat: 37.524802932
+      x-stoplight:
+        id: 8z0y5ncy3louk
       items:
         type: object
         properties:
@@ -1607,6 +1853,14 @@ components:
             type: number
           lat:
             type: number
+          matching_indexes:
+            type: array
+            x-stoplight:
+              id: pejvwldys1ji4
+            items:
+              x-stoplight:
+                id: 30acgeab05ac9
+              type: integer
     PlaceEnrollRequest:
       type: object
       x-examples: {}
@@ -1627,6 +1881,8 @@ components:
             id: 8glnz4u3e3jh4
         site:
           type: string
+      x-stoplight:
+        id: 46phpmjla1aen
     PlaceCreatedResponse:
       type: object
       x-examples:
@@ -1657,21 +1913,10 @@ components:
           type: number
         lat:
           type: number
+      x-stoplight:
+        id: n62v5ch16rr6w
     PlaceSuggestionResponse:
       type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          address:
-            type: string
-          lot_address:
-            type: string
-          distance:
-            type: number
       x-examples:
         Example 1:
           - id: 504
@@ -1724,10 +1969,30 @@ components:
             address: '서울 마포구 동교로34길 21 2,3층'
             lot_address: (지번) 연남동 381-5
             distance: 77.11820519
+      x-stoplight:
+        id: in59aalkgy6fg
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          address:
+            type: string
+          lot_address:
+            type: string
+          distance:
+            type: number
+          category:
+            x-stoplight:
+              id: v0kpg5jras3cl
+            type: string
+            example: WINE_BAR
     ImageUrlWithSuggestionResponse:
       title: ImageUrlWithSuggestionResponse
       x-stoplight:
-        id: dzhxo6trfa0xd
+        id: hvn34r8qazzz2
       type: object
       properties:
         id:
@@ -1741,7 +2006,7 @@ components:
     TagWithIdResponse:
       title: TagWithIdResponse
       x-stoplight:
-        id: 7aqgt3jd68xm4
+        id: 5gyi4fmtuwctj
       type: object
       properties:
         id:
@@ -1769,10 +2034,18 @@ components:
             - PAYMENT
             - EMOTION
             - ACTIVITY
+        matching_indexes:
+          type: array
+          x-stoplight:
+            id: n1ohj3qy1nk1p
+          items:
+            x-stoplight:
+              id: bnummj3e46edz
+            type: integer
     TagWithoutCategoryResponse:
       title: TagWithoutCategoryResponse
       x-stoplight:
-        id: cnwefcwg4veli
+        id: j3ir70oinq5ba
       type: object
       properties:
         id:
@@ -1787,10 +2060,18 @@ components:
           type: string
           x-stoplight:
             id: t30gjz098z8i7
+        matching_indexes:
+          type: array
+          x-stoplight:
+            id: xqvyywxf97pnj
+          items:
+            x-stoplight:
+              id: y6aot4gxo3os9
+            type: integer
     ReviewInCollectionResponse:
       title: ReviewInCollectionResponse
       x-stoplight:
-        id: v37971uixeedm
+        id: cu9uuivup7ur5
       type: object
       properties:
         id:
@@ -1812,7 +2093,7 @@ components:
     BookmarkStatus:
       title: BookmarkStatus
       x-stoplight:
-        id: x1n99cfhl9hn6
+        id: 2yvsasr6k1hvx
       type: object
       properties:
         count:
@@ -1826,7 +2107,7 @@ components:
     LikeStatus:
       title: LikeStatus
       x-stoplight:
-        id: 7hi4wyxvmmrhn
+        id: 2l6lz4hdd5f8u
       type: object
       properties:
         count:
@@ -1837,5 +2118,26 @@ components:
           type: boolean
           x-stoplight:
             id: yhqwtt74db1qw
+    SignoutRequest:
+      title: SignoutRequest
+      x-stoplight:
+        id: jr977gulal4yw
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          x-stoplight:
+            id: tmynzvmkqv2xi
+    PushRegistrationRequest:
+      title: PushRegistrationRequest
+      x-stoplight:
+        id: z4xpfoqwgffv0
+      type: object
+      properties:
+        subject:
+          type: string
+          x-stoplight:
+            id: 48bjcsw9k5szv
   requestBodies: {}
   responses: {}
+  securitySchemes: {}
